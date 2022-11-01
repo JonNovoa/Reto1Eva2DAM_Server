@@ -5,6 +5,12 @@
  */
 package application;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Pool;
+
 /**
  *
  * @author somor
@@ -15,7 +21,20 @@ public class Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            // TODO code application logic here
+            Connection c = Pool.getInstance().getConnection();
+            if(c!=null){
+                System.out.println("conectado");
+                Pool.getInstance().closeConnection(c);
+                
+                
+            }else{
+                System.out.println("No conectado");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
