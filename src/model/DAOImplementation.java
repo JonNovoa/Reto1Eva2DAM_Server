@@ -27,45 +27,33 @@ public class DAOImplementation implements DAOInterface{
     final String SELECTemail = "SELECT email FROM client WHERE email = ?";
     final String SELECTid = "SELECT MAX(id) from client";
 
-    private Connection conex;
+    private Connection c;
     private PreparedStatement stmt;
-    private ResourceBundle archivoConfig;
-    private String url;
-    private String usuario;
-    private String contraseña;
-    private String driver;
 
-    public DAOImplementation() {
-        this.archivoConfig = ResourceBundle.getBundle("modelo.config");
-        this.url = archivoConfig.getString("Conn");
-        this.usuario = archivoConfig.getString("BDUser");
-        this.contraseña = archivoConfig.getString("BDPass");
-        this.driver = archivoConfig.getString("Driver");
-    }
-
-    public void openConnection() {
+    /*public void openConnection() {
         try {
             conex = DriverManager.getConnection(url, usuario, contraseña);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public void closeConnection() throws SQLException {
+    /*public void closeConnection() throws SQLException {
         if (conex != null) {
             conex.close();
         }
         if (stmt != null) {
             conex.close();
         }
-    }
+    }*/
 
     public void insertarUser(Client cliente) {
-        this.openConnection();
-
+            
         try {
-            stmt = conex.prepareStatement(INSERTuser);
+            c = Pool.getInstance().getConnection();
+            
+            stmt = c.prepareStatement(INSERTuser);
             stmt.setInt(1, generarId());
             stmt.setString(2, cliente.getLogin());
             stmt.setString(3, cliente.getEmail());
@@ -73,34 +61,30 @@ public class DAOImplementation implements DAOInterface{
             stmt.setString(5, cliente.getUsertStatus().toString());
             stmt.setString(6, cliente.getUserPrivilege().toString());
             stmt.setString(7, cliente.getPasswd());
-
+            
+            stmt.executeUpdate();
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                this.closeConnection();
-            } catch (SQLException ex) {
-                Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
     }
 
     public Integer comprobarSingUp(Client cliente) {
-        this.openConnection();
         ResultSet rs;
         Boolean log = false;
         Boolean email = false;
         Integer up = 0;
         try {
-            stmt = conex.prepareStatement(SELECTlogin);
+            c = Pool.getInstance().getConnection();
+            stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
             if (rs.equals(cliente.getLogin())) {
                 log = true;
             }
 
-            stmt = conex.prepareStatement(SELECTemail);
+            stmt = c.prepareStatement(SELECTemail);
             stmt.setString(1, cliente.getEmail());
             rs = stmt.executeQuery();
             if (rs.equals(cliente.getEmail())) {
@@ -120,7 +104,7 @@ public class DAOImplementation implements DAOInterface{
                 up = 4;
                 return up;
             }
-            this.closeConnection();
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -129,21 +113,21 @@ public class DAOImplementation implements DAOInterface{
     }
     
     public Boolean comprobarSingIn(Client cliente){
-        this.openConnection();
         ResultSet rs;
         Boolean login = false;
         Boolean passwd = false;
         Boolean singUp = false;
         
         try {
-            stmt = conex.prepareStatement(SELECTlogin);
+            c = Pool.getInstance().getConnection();
+            stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
             if(rs.equals(cliente.getLogin())){
                 login = true;
             }
             
-            stmt = conex.prepareStatement(SELECTpasswd);
+            stmt = c.prepareStatement(SELECTpasswd);
             stmt.setString(0, cliente.getLogin());
             rs = stmt.executeQuery();
             if(rs.equals(cliente.getPasswd())){
@@ -154,7 +138,7 @@ public class DAOImplementation implements DAOInterface{
                 singUp = true;
                 return singUp;
             }
-            this.closeConnection();
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }        
@@ -165,7 +149,7 @@ public class DAOImplementation implements DAOInterface{
         Integer id = null;
         ResultSet rs = null;
         try {
-            stmt = conex.prepareStatement(SELECTid);
+            stmt = c.prepareStatement(SELECTid);
             rs = stmt.executeQuery();
 
             id = rs.getInt(1) + 1;

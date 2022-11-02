@@ -5,10 +5,14 @@
  */
 package application;
 
+import clases.Client;
+import static clases.UserPrivilege.USER;
+import static clases.UserStatus.ENABLED;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.DAOImplementation;
 import model.Pool;
 
 /**
@@ -21,7 +25,16 @@ public class Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        try {
+        Client clie = new Client();
+        clie.setLogin("josue");
+        clie.setEmail("josue@gmail.com");
+        clie.setFullName("Josue Vargas");
+        clie.setPasswd("abcd*1234");
+        clie.setUserPrivilege(USER);
+        clie.setUsertStatus(ENABLED);
+        DAOImplementation d = new DAOImplementation();
+        d.insertarUser(clie);
+        /*try {
             // TODO code application logic here
             Connection c = Pool.getInstance().getConnection();
             if(c!=null){
@@ -34,7 +47,7 @@ public class Application {
             }
         } catch (SQLException ex) {
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
 }
