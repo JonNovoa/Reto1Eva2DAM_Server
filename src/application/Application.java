@@ -10,6 +10,8 @@ import static clases.UserPrivilege.USER;
 import static clases.UserStatus.ENABLED;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DAOImplementation;
@@ -20,12 +22,15 @@ import model.Pool;
  * @author somor
  */
 public class Application {
-
+    private static Stack pool = null;
+    
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Client clie = new Client();
+        
         clie.setLogin("josue");
         clie.setEmail("josue@gmail.com");
         clie.setFullName("Josue Vargas");
@@ -33,7 +38,7 @@ public class Application {
         clie.setUserPrivilege(USER);
         clie.setUsertStatus(ENABLED);
         DAOImplementation d = new DAOImplementation();
-        d.insertarUser(clie);
+        d.insertarUser(clie, pool);
         /*try {
             // TODO code application logic here
             Connection c = Pool.getInstance().getConnection();
