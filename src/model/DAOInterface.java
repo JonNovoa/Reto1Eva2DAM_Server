@@ -5,10 +5,14 @@
  */
 package model;
 
+import clases.Client;
+
 /**
  *
  * @author somor
  */
 public interface DAOInterface {
-    
+    public void insertarUser(Client cliente);
+    public Integer comprobarSingUp(Client cliente);
+    public Boolean comprobarSingIn(Client cliente);
 }

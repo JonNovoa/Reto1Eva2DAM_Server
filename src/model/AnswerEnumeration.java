@@ -10,5 +10,5 @@ package model;
  * @author somor
  */
 public enum AnswerEnumeration {
-    
+    WLOGIN, WPASSWD, WLOGIN_PASSWD, WGMAIL, SINGUP, LOGIN
 }
