@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +27,6 @@ public class DAOImplementation implements DAOInterface{
     final String SELECTemail = "SELECT email FROM client WHERE email = ?";
     final String SELECTid = "SELECT MAX(id) from client";
 
-    private Pool co = null;
     private Connection c;
     private PreparedStatement stmt;
 
@@ -50,14 +48,11 @@ public class DAOImplementation implements DAOInterface{
         }
     }*/
 
-    public void insertarUser(Client cliente, Stack pool) {
-            Integer good;
-            co = new Pool();
-        try {
-            c = co.createConec();
-            //good = comprobarSingUp(cliente);
+    public void insertarUser(Client cliente) {
             
-            //if(good == 4){
+        try {
+            c = Pool.getInstance().getConnection();
+            
             stmt = c.prepareStatement(INSERTuser);
             stmt.setInt(1, generarId());
             stmt.setString(2, cliente.getLogin());
@@ -68,7 +63,7 @@ public class DAOImplementation implements DAOInterface{
             stmt.setString(7, cliente.getPasswd());
             
             stmt.executeUpdate();
-            //}
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,7 +76,7 @@ public class DAOImplementation implements DAOInterface{
         Boolean email = false;
         Integer up = 0;
         try {
-            
+            c = Pool.getInstance().getConnection();
             stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
@@ -109,6 +104,7 @@ public class DAOImplementation implements DAOInterface{
                 up = 4;
                 return up;
             }
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -123,6 +119,7 @@ public class DAOImplementation implements DAOInterface{
         Boolean singUp = false;
         
         try {
+            c = Pool.getInstance().getConnection();
             stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
@@ -141,7 +138,7 @@ public class DAOImplementation implements DAOInterface{
                 singUp = true;
                 return singUp;
             }
-            
+            Pool.getInstance().closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }        
@@ -162,6 +159,5 @@ public class DAOImplementation implements DAOInterface{
         }
         return id;
     }
- 
 
 }
