@@ -5,6 +5,7 @@
  */
 package sockets;
 
+import clases.Message;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,8 +23,9 @@ import java.util.logging.Logger;
 public class SocketServer {
 
     static final int PUERTO = 5000;
-
-    public SocketServer() {
+    //private persona per = null;
+    
+    public SocketServer(Message mes) {
         ServerSocket skServidor = null;
         Socket skCliente = null;
 
@@ -31,21 +33,25 @@ public class SocketServer {
             skServidor = new ServerSocket(PUERTO);
             System.out.println("Escucho el puerto " + PUERTO);
             skCliente = skServidor.accept();
+            
+            
+           
 
             ObjectOutputStream out = new ObjectOutputStream(skCliente.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(skCliente.getInputStream());
             
+            mes = (Message) in.readObject();
+          
+          
+            skCliente.close();
             
         } catch (IOException ex) {
             Logger.getLogger(ServerSocket.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                skCliente.close();
-                skServidor.close();
-            } catch (IOException ex) {
-                Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
             
-        }
+        
     }
+    
 }
