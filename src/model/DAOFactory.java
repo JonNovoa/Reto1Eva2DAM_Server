@@ -16,12 +16,11 @@ import static clases.Order.UP;
  */
 public class DAOFactory {
 
-    public static DAOInterface getDAO(Client cliente, Order ORDEN) {
-        if (ORDEN.equals(IN)) {
-            return new DAOImplementation();
-        } else if (ORDEN.equals(UP)) {
-            return new DAOImplementation();
-        }
-        return null;
+    public static DAOInterface getDAO() {
+        
+        return new DAOImplementation();
+        
+            
+        
     }
 }
