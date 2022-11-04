@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class Pool {
     private Connection conect = null;
+    //Datos conseguidos en config para poder conectarse a la BD
     private static final String URL= ResourceBundle.getBundle("model.config").getString("url");
     private static final String USER= ResourceBundle.getBundle("model.config").getString("user");
     private static final String PASS= ResourceBundle.getBundle("model.config").getString("pass");
@@ -33,11 +34,11 @@ public class Pool {
             return (Connection) pool.pop();
         }
     }
-
+//Cerramos la Conexion
     public void closeConnection(Connection connection) throws SQLException {
         connection.close();
     }
-    
+//Abrimos la conexion a la Base de Datos 
     public Connection createConect(){
         try {
             conect = DriverManager.getConnection(URL, USER, PASS);
