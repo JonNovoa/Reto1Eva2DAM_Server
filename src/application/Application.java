@@ -8,14 +8,9 @@ package application;
 import clases.Client;
 import static clases.UserPrivilege.USER;
 import static clases.UserStatus.ENABLED;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.DAOImplementation;
-import model.Pool;
+
 
 /**
  *
@@ -31,7 +26,7 @@ public class Application {
     public static void main(String[] args) {
         Client clie = new Client();
         
-        clie.setLogin("gonzalo123");
+        clie.setLogin("gonzalo1");
         clie.setEmail("gozanlo123@gmail.com");
         clie.setFullName("Gonzalo Fernandez");
         clie.setPasswd("abcd*1234");

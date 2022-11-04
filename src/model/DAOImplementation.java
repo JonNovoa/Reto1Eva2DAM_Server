@@ -67,7 +67,7 @@ public class DAOImplementation implements DAOInterface{
             
             //if(good == 4){
             stmt = c.prepareStatement(INSERTuser);
-            stmt.setInt(1, generarId());
+            stmt.setInt(1, 1);
             stmt.setString(2, cliente.getLogin());
             stmt.setString(3, cliente.getEmail());
             stmt.setString(4, cliente.getFullName());
