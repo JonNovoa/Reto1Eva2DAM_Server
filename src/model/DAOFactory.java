@@ -5,10 +5,22 @@
  */
 package model;
 
+import clases.Client;
+import clases.Order;
+import static clases.Order.IN;
+import static clases.Order.UP;
+
 /**
  *
  * @author somor
  */
 public class DAOFactory {
-    
+
+    public static DAOInterface getDAO() {
+        
+        return new DAOImplementation();
+        
+            
+        
+    }
 }
