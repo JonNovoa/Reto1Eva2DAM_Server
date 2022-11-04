@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ThreadSR;
 
 /**
  *
@@ -34,6 +35,10 @@ public class SocketServer {
 
             ObjectOutputStream out = new ObjectOutputStream(skCliente.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(skCliente.getInputStream());
+            for (int i = 0; i < 10; i++) {
+            ThreadSR hilo= new ThreadSR(out, in);
+            hilo.start();
+            }
             
             
         } catch (IOException ex) {

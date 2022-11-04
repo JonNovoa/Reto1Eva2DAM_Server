@@ -5,6 +5,9 @@
 package model;
 
 import clases.Message;
+import clases.Order;
+import static clases.Order.IN;
+import static clases.Order.UP;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,8 +31,22 @@ public class ThreadSR  extends Thread{
         
     public void run(){
         Message mensaje= new Message();
-         try {
+        Order  RESPUESTA;
+        try {
              mensaje= (Message) this.in.readObject();
+            DAOInterface dao=DAOFactory.getDAO();
+            if(mensaje.getOrden().equals(IN)){
+                dao.comprobarSingIn(mensaje.getCliente());
+                
+            }else if(mensaje.getOrden().equals(UP)){
+                dao.insertarUser(mensaje.getCliente(), null);
+                
+            }
+          
+             
+             
+             
+             
          } catch (IOException ex) {
              Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
