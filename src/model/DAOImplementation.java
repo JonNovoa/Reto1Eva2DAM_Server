@@ -7,11 +7,9 @@ package model;
 
 import clases.Client;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,23 +30,6 @@ public class DAOImplementation implements DAOInterface{
     private Connection c;
     private PreparedStatement stmt;
 
-    /*public void openConnection() {
-        try {
-            conex = DriverManager.getConnection(url, usuario, contraseña);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }*/
-
-    /*public void closeConnection() throws SQLException {
-        if (conex != null) {
-            conex.close();
-        }
-        if (stmt != null) {
-            conex.close();
-        }
-    }*/
 
     /**
      *
@@ -67,7 +48,7 @@ public class DAOImplementation implements DAOInterface{
             
             //if(good == 4){
             stmt = c.prepareStatement(INSERTuser);
-            stmt.setInt(1, generarId());
+            stmt.setInt(1, 1);
             stmt.setString(2, cliente.getLogin());
             stmt.setString(3, cliente.getEmail());
             stmt.setString(4, cliente.getFullName());
@@ -79,6 +60,7 @@ public class DAOImplementation implements DAOInterface{
             stmt.executeUpdate();
              co.closeConnection(c);
             //}
+            co.closeConnection(c);
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -162,7 +144,8 @@ public class DAOImplementation implements DAOInterface{
         Integer id = null;
         ResultSet rs = null;
         try {
-            stmt = c.prepareStatement(SELECTid);
+            PreparedStatement stmnt = null;
+            stmnt = c.prepareStatement(SELECTid);
             rs = stmt.executeQuery();
            
             id = rs.getInt("num") + 1;
