@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 public interface DAOInterface {
     
-    public void insertarUser(Client cliente, Stack pool);
+    public Enum insertarUser(Client cliente, Stack pool);
     public Integer comprobarSingUp(Client cliente);
-    public Boolean comprobarSingIn(Client cliente);
+    public Enum comprobarSingIn(Client cliente);
 }
