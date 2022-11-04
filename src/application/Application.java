@@ -31,9 +31,9 @@ public class Application {
     public static void main(String[] args) {
         Client clie = new Client();
         
-        clie.setLogin("josue");
-        clie.setEmail("josue@gmail.com");
-        clie.setFullName("Josue Vargas");
+        clie.setLogin("gonzalo123");
+        clie.setEmail("gozanlo123@gmail.com");
+        clie.setFullName("Gonzalo Fernandez");
         clie.setPasswd("abcd*1234");
         clie.setUserPrivilege(USER);
         clie.setUsertStatus(ENABLED);

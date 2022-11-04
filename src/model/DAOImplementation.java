@@ -22,11 +22,11 @@ import java.util.logging.Logger;
  */
 public class DAOImplementation implements DAOInterface{
 
-    final String INSERTuser = "INSER INTO client(id, login, email, fullname, status, privilege, passwd) VALUES(?,?,?,?,?,?,?)";
+    final String INSERTuser = "INSERT INTO client(id, login, email, fullname, status, privilege, passwd, lastPasswdChange) VALUES(?,?,?,?,?,?,?,?)";
     final String SELECTlogin = "SELECT login FROM client WHERE login = ? ";
     final String SELECTpasswd = "SELECT passwd FROM client WHERE login = ?";
     final String SELECTemail = "SELECT email FROM client WHERE email = ?";
-    final String SELECTid = "SELECT MAX(id) from client";
+    final String SELECTid = "SELECT MAX(id) as num  from client";
 
     private Pool co = null;
     private Connection c;
@@ -50,11 +50,19 @@ public class DAOImplementation implements DAOInterface{
         }
     }*/
 
+    /**
+     *
+     * @param cliente
+     * @param pool
+     */
+
+
+    @Override
     public void insertarUser(Client cliente, Stack pool) {
             Integer good;
             co = new Pool();
         try {
-            c = co.createConec();
+            c = co.createConect();
             //good = comprobarSingUp(cliente);
             
             //if(good == 4){
@@ -66,8 +74,10 @@ public class DAOImplementation implements DAOInterface{
             stmt.setString(5, cliente.getUsertStatus().toString());
             stmt.setString(6, cliente.getUserPrivilege().toString());
             stmt.setString(7, cliente.getPasswd());
+            stmt.setString(8,null);
             
             stmt.executeUpdate();
+             co.closeConnection(c);
             //}
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,9 +164,10 @@ public class DAOImplementation implements DAOInterface{
         try {
             stmt = c.prepareStatement(SELECTid);
             rs = stmt.executeQuery();
+           
+            id = rs.getInt("num") + 1;
 
-            id = rs.getInt(1) + 1;
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }

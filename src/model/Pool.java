@@ -20,9 +20,7 @@ import java.util.logging.Logger;
  * @author somor
  */
 public class Pool {
-
-   
-    private Connection conec = null;
+    private Connection conect = null;
     private static final String URL= ResourceBundle.getBundle("model.config").getString("url");
     private static final String USER= ResourceBundle.getBundle("model.config").getString("user");
     private static final String PASS= ResourceBundle.getBundle("model.config").getString("pass");
@@ -30,7 +28,7 @@ public class Pool {
 
     public Connection getConnection(Stack pool) throws SQLException {
         if(pool.isEmpty()){
-            return (Connection) pool.push(createConec());
+            return (Connection) pool.push(createConect());
         }else {
             return (Connection) pool.pop();
         }
@@ -40,14 +38,14 @@ public class Pool {
         connection.close();
     }
     
-    public Connection createConec(){
+    public Connection createConect(){
         try {
-            conec = DriverManager.getConnection(URL, USER, PASS);
+            conect = DriverManager.getConnection(URL, USER, PASS);
             
         } catch (SQLException ex) {
             Logger.getLogger(Pool.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conec;
+        return conect;
     }
 
     
