@@ -31,22 +31,19 @@ public class ThreadSR  extends Thread{
         
     public void run(){
         Message mensaje= new Message();
-        Order  RESPUESTA;
+      Enum RESPUESTA=null;
+      
         try {
              mensaje= (Message) this.in.readObject();
             DAOInterface dao=DAOFactory.getDAO();
             if(mensaje.getOrden().equals(IN)){
-                dao.comprobarSingIn(mensaje.getCliente());
+                 RESPUESTA=dao.comprobarSingIn(mensaje.getCliente());
                 
             }else if(mensaje.getOrden().equals(UP)){
-                dao.insertarUser(mensaje.getCliente(), null);
+                RESPUESTA=dao.insertarUser(mensaje.getCliente(), null);
                 
             }
           
-             
-             
-             
-             
          } catch (IOException ex) {
              Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
          } catch (ClassNotFoundException ex) {
