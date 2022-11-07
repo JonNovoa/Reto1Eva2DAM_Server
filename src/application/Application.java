@@ -25,7 +25,7 @@ public class Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SocketServer socketServer = new SocketServer();
+       new SocketServer();
         
         /**
         Client clie = new Client();

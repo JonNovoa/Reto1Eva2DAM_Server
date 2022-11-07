@@ -5,6 +5,7 @@
  */
 package sockets;
 
+import clases.Message;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,36 +23,41 @@ import model.ThreadSR;
  */
 public class SocketServer {
 
-     final int PUERTO = 5000;
+    final int PUERTO = 5000;
 
     public SocketServer() {
         ServerSocket skServidor = null;
         Socket skCliente = null;
-
+        ObjectOutputStream out = null;
+        ObjectInputStream in = null;
+        Message mensaje=new Message();
         try {
             skServidor = new ServerSocket(PUERTO);
             System.out.println("Escucho el puerto " + PUERTO);
             skCliente = skServidor.accept();
-            ObjectOutputStream out = new ObjectOutputStream(skCliente.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(skCliente.getInputStream());
-           // for (int i = 0; i < 10; i++) {
-            ThreadSR hilo= new ThreadSR(out, in);
-            hilo.start();
-            out.close();
-            in.close();
+            in = new ObjectInputStream(skCliente.getInputStream());
+                        mensaje=(Message) in.readObject();
+
+            // for (int i = 0; i < 2; i++) {
+            System.out.println(mensaje.getOrden());
+            System.out.println(mensaje.getCliente().getLogin());            
+//ThreadSR hilo = new ThreadSR(out, in);
+            //hilo.start();
             //}
-            
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ServerSocket.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                in.close();
                 skCliente.close();
                 skServidor.close();
             } catch (IOException ex) {
                 Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
 }
