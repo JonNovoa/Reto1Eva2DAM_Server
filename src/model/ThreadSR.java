@@ -30,11 +30,15 @@ public class ThreadSR  extends Thread{
      
         
     public void run(){
+        
+        
+        
         Message mensaje= new Message();
-      Enum RESPUESTA=null;
-      
+        Enum RESPUESTA=null;
         try {
-             mensaje= (Message) this.in.readObject();
+            mensaje= (Message) in.readObject();
+            System.out.println(mensaje.getOrden());
+            System.out.println(mensaje.getCliente().getLogin());
             DAOInterface dao=DAOFactory.getDAO();
             if(mensaje.getOrden().equals(IN)){
                  RESPUESTA=dao.comprobarSingIn(mensaje.getCliente());

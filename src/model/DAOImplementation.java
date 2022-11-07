@@ -13,12 +13,12 @@ import java.sql.SQLException;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static model.AnswerEnumeration.LOGIN;
-import static model.AnswerEnumeration.SINGUP;
-import static model.AnswerEnumeration.WGMAIL;
-import static model.AnswerEnumeration.WLOGIN;
-import static model.AnswerEnumeration.WLOGIN_PASSWD;
-import static model.AnswerEnumeration.WLOGIN_WGMAIL;
+import static clases.AnswerEnumeration.LOGIN;
+import static clases.AnswerEnumeration.SINGUP;
+import static clases.AnswerEnumeration.WGMAIL;
+import static clases.AnswerEnumeration.WLOGIN;
+import static clases.AnswerEnumeration.WLOGIN_PASSWD;
+import static clases.AnswerEnumeration.WLOGIN_WGMAIL;
 
 /**
  *

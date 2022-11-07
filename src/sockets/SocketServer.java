@@ -22,7 +22,7 @@ import model.ThreadSR;
  */
 public class SocketServer {
 
-    static final int PUERTO = 5000;
+     final int PUERTO = 5000;
 
     public SocketServer() {
         ServerSocket skServidor = null;
@@ -32,13 +32,14 @@ public class SocketServer {
             skServidor = new ServerSocket(PUERTO);
             System.out.println("Escucho el puerto " + PUERTO);
             skCliente = skServidor.accept();
-
             ObjectOutputStream out = new ObjectOutputStream(skCliente.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(skCliente.getInputStream());
-            for (int i = 0; i < 10; i++) {
+           // for (int i = 0; i < 10; i++) {
             ThreadSR hilo= new ThreadSR(out, in);
             hilo.start();
-            }
+            out.close();
+            in.close();
+            //}
             
             
         } catch (IOException ex) {
