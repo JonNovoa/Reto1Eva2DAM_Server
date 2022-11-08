@@ -5,6 +5,7 @@
  */
 package model;
 
+import clases.AnswerEnumeration;
 import clases.Client;
 import java.util.Stack;
 
@@ -14,7 +15,7 @@ import java.util.Stack;
  */
 public interface DAOInterface {
     
-    public Enum insertarUser(Client cliente, Stack pool);
+    public AnswerEnumeration insertarUser(Client cliente, Stack pool);
     public Integer comprobarSingUp(Client cliente);
-    public Enum comprobarSingIn(Client cliente);
+    public AnswerEnumeration comprobarSingIn(Client cliente);
 }

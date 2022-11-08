@@ -5,6 +5,7 @@
  */
 package model;
 
+import clases.AnswerEnumeration;
 import clases.Client;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,9 +44,9 @@ public class DAOImplementation implements DAOInterface {
      * @return
      */
     @Override
-    public Enum insertarUser(Client cliente, Stack pool) {
+    public AnswerEnumeration insertarUser(Client cliente, Stack pool) {
         Integer good;
-        Enum Orden;
+        AnswerEnumeration Orden;
         co = new Pool();
         try {
             c = co.createConect();
@@ -128,12 +129,12 @@ public class DAOImplementation implements DAOInterface {
     }
 
     @Override
-    public Enum comprobarSingIn(Client cliente) {
+    public AnswerEnumeration comprobarSingIn(Client cliente) {
         ResultSet rs;
         String i;
         Boolean login = false;
         Boolean passwd = false;
-        Enum orden;
+        AnswerEnumeration orden;
         co = new Pool();
         try {
             c = co.createConect();
