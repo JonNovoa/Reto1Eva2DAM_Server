@@ -41,8 +41,8 @@ public class SocketServer {
             //System.out.println(mensaje.getOrden());
             //System.out.println(mensaje.getCliente().getLogin());
            
-            //ThreadSR hilo = new ThreadSR(skCliente);
-            //hilo.start();            
+            ThreadSR hilo = new ThreadSR(skCliente);
+            hilo.start();            
             }
            //}
 

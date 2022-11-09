@@ -21,15 +21,16 @@ import java.util.logging.Logger;
  */
 public class Pool {
     private Connection conect = null;
+    private static Stack pool= new Stack();
     //Datos conseguidos en config para poder conectarse a la BD
     private static final String URL= ResourceBundle.getBundle("model.config").getString("url");
     private static final String USER= ResourceBundle.getBundle("model.config").getString("user");
     private static final String PASS= ResourceBundle.getBundle("model.config").getString("pass");
     private static final String NAME= ResourceBundle.getBundle("model.config").getString("driver");
 
-    public Connection getConnection(Stack pool) throws SQLException {
+    public Connection getConnection() {
         if(pool.isEmpty()){
-            return (Connection) pool.push(createConect());
+            return createConect();
         }else {
             return (Connection) pool.pop();
         }
@@ -48,6 +49,9 @@ public class Pool {
         }
         return conect;
     }
-
+    
+    public synchronized void guardarConec(Connection conec){
+        pool.push(conec);
+    }
     
 }

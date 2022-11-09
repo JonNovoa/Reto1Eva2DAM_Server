@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author josue
  */
-public class ThreadW extends Thread{
+public class ThreadW {
     private Socket skCliente;
     AnswerEnumeration RESPUESTA;
 
@@ -26,7 +26,6 @@ public class ThreadW extends Thread{
         
         
     }
-    @Override
     public void run(){
         ObjectOutputStream out;
         

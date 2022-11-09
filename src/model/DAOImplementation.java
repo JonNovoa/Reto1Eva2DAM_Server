@@ -49,7 +49,7 @@ public class DAOImplementation implements DAOInterface {
         AnswerEnumeration Orden;
         co = new Pool();
         try {
-            c = co.createConect();
+            c = co.getConnection();
             good = comprobarSingUp(cliente);
 
             if (good == 4) {
@@ -64,17 +64,21 @@ public class DAOImplementation implements DAOInterface {
                 stmt.setString(8, null);
                 stmt.executeUpdate();
 
-                co.closeConnection(c);
+                co.guardarConec(c);
                 return Orden = SINGUP;
             } else if (good == 1) {
+                 //co.guardarConec(c);
                 return Orden = WLOGIN_WGMAIL;
             } else if (good == 2) {
+                 //co.guardarConec(c);
                 return Orden = WLOGIN;
             } else if (good == 3) {
+                 //co.guardarConec(c);
                 return Orden = WGMAIL;
             }
-            co.closeConnection(c);
+            co.guardarConec(c);
         } catch (SQLException ex) {
+             co.guardarConec(c);
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -134,10 +138,10 @@ public class DAOImplementation implements DAOInterface {
         String i;
         Boolean login = false;
         Boolean passwd = false;
-        AnswerEnumeration orden;
+        AnswerEnumeration ORDEN = null;
         co = new Pool();
         try {
-            c = co.createConect();
+            c = co.getConnection();
             stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
@@ -160,18 +164,18 @@ public class DAOImplementation implements DAOInterface {
                 }
             }
             if (login == true && passwd == true) {
-                orden = LOGIN;
-                return orden;
+                ORDEN = AnswerEnumeration.LOGIN;
             }
 
             if (login == false || passwd == false) {
-                orden = WLOGIN_PASSWD;
-                return orden;
+                ORDEN = AnswerEnumeration.WLOGIN_PASSWD;
             }
+            co.guardarConec(c);
         } catch (SQLException ex) {
+             co.guardarConec(c);
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        }         
+        return ORDEN;
     }
 
     private int generarId() {

@@ -35,14 +35,15 @@ public class ThreadSR extends Thread {
      */
     @Override
     public void run() {
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
         Message mensaje = new Message();
         AnswerEnumeration RESPUESTA = null;
-        DAOInterface dao=DAOFactory.getDAO();
+       DAOInterface dao=DAOFactory.getDAO();
         try {
-            in = new ObjectInputStream(skCliente.getInputStream());
-           // mensaje = (Message) in.readObject();
+            ois = new ObjectInputStream(skCliente.getInputStream());
+            oos= new ObjectOutputStream(skCliente.getOutputStream());
+            mensaje = (Message) ois.readObject();
             
             System.out.println(mensaje.getCliente().getLogin());
             System.out.println(mensaje.getORDER());
@@ -54,15 +55,19 @@ public class ThreadSR extends Thread {
                 RESPUESTA = dao.insertarUser(mensaje.getCliente(), null);
 
             }
+            mensaje.setRESPUESTA(RESPUESTA);
             System.out.println(RESPUESTA);
-          
-  
+            oos.writeObject(mensaje);
+            
+            
         } catch (IOException ex) {
+            Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                in.close();
-                // out.close();
+                ois.close();
+                oos.close();
             } catch (IOException ex) {
                 Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
             }
