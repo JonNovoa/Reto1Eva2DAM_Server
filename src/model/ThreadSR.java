@@ -35,7 +35,6 @@ public class ThreadSR extends Thread {
      */
     @Override
     public void run() {
-        ServerSocket skServidor;
         ObjectOutputStream out = null;
         ObjectInputStream in = null;
         Message mensaje = new Message();
@@ -43,15 +42,15 @@ public class ThreadSR extends Thread {
         DAOInterface dao=DAOFactory.getDAO();
         try {
             in = new ObjectInputStream(skCliente.getInputStream());
-            mensaje = (Message) in.readObject();
+           // mensaje = (Message) in.readObject();
             
             System.out.println(mensaje.getCliente().getLogin());
-            System.out.println(mensaje.getOrden());
-            if (mensaje.getOrden().equals(IN)) {
+            System.out.println(mensaje.getORDER());
+            if (mensaje.getORDER().equals(IN)) {
                 RESPUESTA = dao.comprobarSingIn(mensaje.getCliente());
                 
 
-            } else if (mensaje.getOrden().equals(UP)) {
+            } else if (mensaje.getORDER().equals(UP)) {
                 RESPUESTA = dao.insertarUser(mensaje.getCliente(), null);
 
             }
@@ -59,8 +58,6 @@ public class ThreadSR extends Thread {
           
   
         } catch (IOException ex) {
-            Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
@@ -72,14 +69,14 @@ public class ThreadSR extends Thread {
 
         }
         
-        try {
+       /** try {
             skServidor = new ServerSocket(PUERTO);
             skCliente= skServidor.accept();
             ThreadW hilo= new ThreadW(skCliente,RESPUESTA);
         } catch (IOException ex) {
             Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+          */  
 
       
         

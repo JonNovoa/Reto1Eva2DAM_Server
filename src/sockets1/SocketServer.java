@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sockets;
+package sockets1;
 
 import clases.Message;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -19,25 +21,30 @@ import model.ThreadSR;
  */
 public class SocketServer {
 
-    static final int PUERTO = 5000;
+    static final Integer PUERTO = 5000;
 
     public SocketServer() {
         ServerSocket skServidor = null;
         Socket skCliente = null;
         Message mensaje = new Message();
         try {
+            
             skServidor = new ServerSocket(PUERTO);
             System.out.println("Escucho el puerto " + PUERTO);
+            while(true){
             skCliente = skServidor.accept();
-            //in = new ObjectInputStream(skCliente.getInputStream());
-            //mensaje = (Message) in.readObject();
+                System.out.println("Cliente Conectado");
+            
+//mensaje = (Message) in.readObject();
 
             // for (int i = 0; i < 2; i++) {
             //System.out.println(mensaje.getOrden());
             //System.out.println(mensaje.getCliente().getLogin());
-           ThreadSR hilo = new ThreadSR(skCliente);
-           hilo.start();            
-            //}
+           
+            //ThreadSR hilo = new ThreadSR(skCliente);
+            //hilo.start();            
+            }
+           //}
 
         } catch (IOException ex) {
             Logger.getLogger(ServerSocket.class.getName()).log(Level.SEVERE, null, ex);
