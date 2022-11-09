@@ -32,6 +32,10 @@ public class DAOImplementation implements DAOInterface {
     final String SELECTpasswd = "SELECT passwd FROM client WHERE login = ? GROUP BY passwd";
     final String SELECTemail = "SELECT email FROM client WHERE email = ? GROUP BY email";
     final String SELECTid = "SELECT MAX(id) as num FROM client";
+    final String SELECTcountid = "SELECT count(*) as num FROM signin WHERE id=?";
+    final String INSERTsignin = "INSERT INTO signin(id, lastSignIn) VALUES(?,?)";
+    final String SELECTidlogin = "SELECT id FROM client WHERE login = ?";
+    final String DELETEprimero = "DELETE FROM signin where id=? limit 1";
 
     private Pool co = null;
     private Connection c;
@@ -45,6 +49,8 @@ public class DAOImplementation implements DAOInterface {
      */
     @Override
     public AnswerEnumeration insertarUser(Client cliente, Stack pool) {
+        ResultSet rs;
+
         Integer good;
         AnswerEnumeration Orden;
         co = new Pool();
@@ -67,18 +73,18 @@ public class DAOImplementation implements DAOInterface {
                 co.guardarConec(c);
                 return Orden = SINGUP;
             } else if (good == 1) {
-                 //co.guardarConec(c);
+                //co.guardarConec(c);
                 return Orden = WLOGIN_WGMAIL;
             } else if (good == 2) {
-                 //co.guardarConec(c);
+                //co.guardarConec(c);
                 return Orden = WLOGIN;
             } else if (good == 3) {
-                 //co.guardarConec(c);
+                //co.guardarConec(c);
                 return Orden = WGMAIL;
             }
             co.guardarConec(c);
         } catch (SQLException ex) {
-             co.guardarConec(c);
+            co.guardarConec(c);
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -145,18 +151,18 @@ public class DAOImplementation implements DAOInterface {
             stmt = c.prepareStatement(SELECTlogin);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 i = rs.getString("login");
                 if (i.equals(cliente.getLogin())) {
                     login = true;
                 }
             }
-            
+
             stmt = c.prepareStatement(SELECTpasswd);
             stmt.setString(1, cliente.getLogin());
             rs = stmt.executeQuery();
-                    
+
             if (rs.next()) {
                 i = rs.getString("passwd");
                 if (i.equals(cliente.getPasswd())) {
@@ -165,6 +171,16 @@ public class DAOImplementation implements DAOInterface {
             }
             if (login == true && passwd == true) {
                 ORDEN = AnswerEnumeration.LOGIN;
+                Integer id =obtenerId(cliente);
+                System.out.println(id);
+                Integer count= contarConexion(id);
+                System.out.println(count);
+                if(count==10){
+                    eliminarPrimero(id);
+                    
+                }
+                insertSignIn(id);
+                
             }
 
             if (login == false || passwd == false) {
@@ -172,9 +188,9 @@ public class DAOImplementation implements DAOInterface {
             }
             co.guardarConec(c);
         } catch (SQLException ex) {
-             co.guardarConec(c);
+            co.guardarConec(c);
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
-        }         
+        }
         return ORDEN;
     }
 
@@ -194,6 +210,65 @@ public class DAOImplementation implements DAOInterface {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
+    }
+
+    private Integer obtenerId(Client cliente) {
+        ResultSet rs;
+        Integer i = null;
+        try {
+            stmt = c.prepareStatement(SELECTidlogin);
+            stmt.setString(1, cliente.getLogin());
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                i = rs.getInt("id");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return i;
+
+    }
+
+    private Integer contarConexion(Integer id) {
+     ResultSet rs;
+        Integer i = null;
+        try {
+            stmt = c.prepareStatement(SELECTcountid);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                i = rs.getInt("num");
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return i;
+    }
+
+    private void insertSignIn(Integer id) {
+        try {
+            stmt = c.prepareStatement(INSERTsignin);
+            stmt.setInt(1, id);   
+            stmt.setString(2, null);
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void eliminarPrimero(Integer id) {
+        try {
+            stmt = c.prepareStatement(DELETEprimero);   
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
