@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Creates threads
  * @author josue
  */
 public class ThreadSR extends Thread {
@@ -31,7 +31,8 @@ public class ThreadSR extends Thread {
     }
 
     /**
-     *
+     *Checks the message received from the client and depending on 
+     * the command in the message performs either a sign up or a log in.
      */
     @Override
     public void run() {
@@ -72,18 +73,7 @@ public class ThreadSR extends Thread {
                 Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }
-        
-       /** try {
-            skServidor = new ServerSocket(PUERTO);
-            skCliente= skServidor.accept();
-            ThreadW hilo= new ThreadW(skCliente,RESPUESTA);
-        } catch (IOException ex) {
-            Logger.getLogger(ThreadSR.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          */  
-
-      
-        
+        }   
+       
     }
 }

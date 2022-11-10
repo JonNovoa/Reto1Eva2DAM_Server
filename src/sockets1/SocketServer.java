@@ -16,13 +16,16 @@ import java.util.logging.Logger;
 import model.ThreadSR;
 
 /**
- *
+ *  Sets the port for the connection between sockets.
  * @author INFORMATICA
  */
 public class SocketServer {
 
     static final Integer PUERTO = 5000;
 
+    /**
+     * Creates a Thread and executes it.
+     */
     public SocketServer() {
         ServerSocket skServidor = null;
         Socket skCliente = null;
@@ -30,28 +33,19 @@ public class SocketServer {
         try {
             
             skServidor = new ServerSocket(PUERTO);
-            System.out.println("Escucho el puerto " + PUERTO);
+            Logger.getLogger("Escucho el puerto "+PUERTO);
             while(true){
             skCliente = skServidor.accept();
-                System.out.println("Cliente Conectado");
+            Logger.getLogger("Cliente Conectado");
             
-//mensaje = (Message) in.readObject();
-
-            // for (int i = 0; i < 2; i++) {
-            //System.out.println(mensaje.getOrden());
-            //System.out.println(mensaje.getCliente().getLogin());
-           
             ThreadSR hilo = new ThreadSR(skCliente);
             hilo.start();            
             }
-           //}
 
         } catch (IOException ex) {
             Logger.getLogger(ServerSocket.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                //in.close();
-               // skCliente.close();
                 skServidor.close();
             } catch (IOException ex) {
                 Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);

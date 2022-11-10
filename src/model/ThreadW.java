@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Write the server's response in the message.
  * @author josue
  */
 public class ThreadW {
@@ -21,11 +21,13 @@ public class ThreadW {
 
     ThreadW(Socket skCliente, AnswerEnumeration RESPUESTA) {
         this.skCliente=skCliente;
-        this.RESPUESTA=RESPUESTA;
-        
-        
-        
+        this.RESPUESTA=RESPUESTA;      
+               
     }
+    
+    /**
+     * Writes a message with the server's response on the socket.
+     */
     public void run(){
         ObjectOutputStream out;
         

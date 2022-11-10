@@ -10,7 +10,7 @@ import clases.Client;
 import java.util.Stack;
 
 /**
- *
+ * Contains the methods of DAOImpementation
  * @author somor
  */
 public interface DAOInterface {

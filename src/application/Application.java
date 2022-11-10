@@ -14,7 +14,7 @@ import sockets1.SocketServer;
 
 
 /**
- *
+ * Execute the server socket
  * @author somor
  */
 public class Application {
@@ -22,35 +22,12 @@ public class Application {
     
     
     /**
+     * Create a new server Socket.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
        new SocketServer();
         
-        /**
-        Client clie = new Client();
-        clie.setLogin("gonzalo1");
-        clie.setEmail("gozanlo123@gmail.com");
-        clie.setFullName("Gonzalo Fernandez");
-        clie.setPasswd("abcd*1234");
-        clie.setUserPrivilege(USER);
-        clie.setUsertStatus(ENABLED);
-        DAOImplementation d = new DAOImplementation();
-        d.insertarUser(clie, pool);
-         */
-        /*try {
-        // TODO code application logic here
-        Connection c = Pool.getInstance().getConnection();
-        if(c!=null){
-        System.out.println("conectado");
-        Pool.getInstance().closeConnection(c);
-        }else{
-        System.out.println("No conectado");
-        }
-        } catch (SQLException ex) {
-        Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
     }
     
 }

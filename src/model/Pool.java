@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *  Creates connections to the database and stores them in a stack
  * @author somor
  */
 public class Pool {
@@ -28,10 +28,15 @@ public class Pool {
     private static final String PASS = ResourceBundle.getBundle("model.config").getString("pass");
     private static final String NAME = ResourceBundle.getBundle("model.config").getString("driver");
 
+    /**
+     * Checks if the stack is empty, if it is empty it creates a 
+     * connection and returns it, if not it takes the connection from 
+     * the stack and returns it.
+     * @return 
+     */
     public Connection getConnection() {
         if (pool.isEmpty()) {
-            // PoolConecction contador= new PoolConecction();
-            // contador.pilaContar(0);
+            
             return createConect();
 
         } else {
@@ -39,12 +44,19 @@ public class Pool {
         }
     }
 //Cerramos la Conexion
-
+    /**
+     * Pulls the connections out of the stack and closes them one by one.
+     * @param connection
+     * @throws SQLException 
+     */
     public void closeConnection(Connection connection) throws SQLException {
         connection.close();
     }
 //Abrimos la conexion a la Base de Datos 
-
+    /**
+     * Creates connections to the database and returns them.
+     * @return 
+     */
     public Connection createConect() {
         PoolConecction contador= new PoolConecction();
         contador.pilaContar();
@@ -57,9 +69,13 @@ public class Pool {
         return conect;
     }
 
+    /**
+     * Save the connections in the stack
+     * @param conec 
+     */
     public synchronized void guardarConec(Connection conec) {
         pool.push(conec);
-        //PoolConecction contador= new PoolConecction();
+        
 
     }
 

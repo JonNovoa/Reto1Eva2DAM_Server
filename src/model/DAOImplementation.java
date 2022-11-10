@@ -22,7 +22,7 @@ import static clases.AnswerEnumeration.WLOGIN_PASSWD;
 import static clases.AnswerEnumeration.WLOGIN_WGMAIL;
 
 /**
- *
+ * Performs queries against the database
  * @author somor
  */
 public class DAOImplementation implements DAOInterface {
@@ -42,7 +42,7 @@ public class DAOImplementation implements DAOInterface {
     private PreparedStatement stmt;
 
     /**
-     *
+     * Inserts the users in the database.
      * @param cliente
      * @param pool
      * @return
@@ -57,7 +57,12 @@ public class DAOImplementation implements DAOInterface {
         try {
             c = co.getConnection();
             good = comprobarSingUp(cliente);
-
+            
+            /**
+             * Depending on the result of the comprobarSingUp method, it will insert 
+             * the user in the database and return an AnswerEnumeration or 
+             * simply return an AnswerEnumeration.
+             */
             if (good == 4) {
                 stmt = c.prepareStatement(INSERTuser);
                 stmt.setInt(1, generarId());
@@ -73,13 +78,13 @@ public class DAOImplementation implements DAOInterface {
                 co.guardarConec(c);
                 return Orden = SINGUP;
             } else if (good == 1) {
-                //co.guardarConec(c);
+                co.guardarConec(c);
                 return Orden = WLOGIN_WGMAIL;
             } else if (good == 2) {
-                //co.guardarConec(c);
+                co.guardarConec(c);
                 return Orden = WLOGIN;
             } else if (good == 3) {
-                //co.guardarConec(c);
+                co.guardarConec(c);
                 return Orden = WGMAIL;
             }
             co.guardarConec(c);
@@ -90,6 +95,12 @@ public class DAOImplementation implements DAOInterface {
         return null;
     }
 
+    /**
+     * Check that the login and gmail entered in the sing up 
+     * are not repeated in the database.
+     * @param cliente
+     * @return 
+     */
     @Override
     public Integer comprobarSingUp(Client cliente) {
         ResultSet rs;
@@ -119,6 +130,10 @@ public class DAOImplementation implements DAOInterface {
                     email = true;
                 }
             }
+            /**
+             * Depending on whether or not the login, password or both are repeated, 
+             * it will return one value or another. 
+             */
             if (log == true && email == true) {
                 up = 1;
                 return up;
@@ -138,6 +153,12 @@ public class DAOImplementation implements DAOInterface {
         return up;
     }
 
+    /**
+     * Check that the login exists and that the password matches the login 
+     * when performing the sing in in the database.
+     * @param cliente
+     * @return 
+     */
     @Override
     public AnswerEnumeration comprobarSingIn(Client cliente) {
         ResultSet rs;
@@ -169,9 +190,13 @@ public class DAOImplementation implements DAOInterface {
                     passwd = true;
                 }
             }
+            /**
+             * Depending on whether the login exists and the password matches it 
+             * returns a command to the Client
+             */
             if (login == true && passwd == true) {
                 ORDEN = AnswerEnumeration.LOGIN;
-                Integer id =obtenerId(cliente);
+                Integer id = obtenerId(cliente);
                 System.out.println(id);
                 Integer count= contarConexion(id);
                 System.out.println(count);
@@ -193,7 +218,12 @@ public class DAOImplementation implements DAOInterface {
         }
         return ORDEN;
     }
-
+    
+    /**
+     * It takes the last id entered in the database and adds 1 to it 
+     * to return it and assign it to the next user to be entered.
+     * @return 
+     */
     private int generarId() {
         Integer id = null;
         ResultSet rs;
@@ -212,6 +242,11 @@ public class DAOImplementation implements DAOInterface {
         return id;
     }
 
+    /**
+     * Returns the user id
+     * @param cliente
+     * @return 
+     */
     private Integer obtenerId(Client cliente) {
         ResultSet rs;
         Integer i = null;
@@ -231,6 +266,11 @@ public class DAOImplementation implements DAOInterface {
 
     }
 
+    /**
+     * Count the number of sing in done
+     * @param id
+     * @return 
+     */
     private Integer contarConexion(Integer id) {
      ResultSet rs;
         Integer i = null;
@@ -249,6 +289,10 @@ public class DAOImplementation implements DAOInterface {
         return i;
     }
 
+    /**
+     * Saves the date of the last sign in performed
+     * @param id 
+     */
     private void insertSignIn(Integer id) {
         try {
             stmt = c.prepareStatement(INSERTsignin);
@@ -261,6 +305,11 @@ public class DAOImplementation implements DAOInterface {
         }
     }
 
+    /**
+     * If when you sign in and there are 10 records stored in the database 
+     * it will delete the oldest of them all and register the new one.
+     * @param id 
+     */
     private void eliminarPrimero(Integer id) {
         try {
             stmt = c.prepareStatement(DELETEprimero);   
