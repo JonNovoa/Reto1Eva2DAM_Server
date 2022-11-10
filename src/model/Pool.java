@@ -46,9 +46,11 @@ public class Pool {
 //Abrimos la conexion a la Base de Datos 
 
     public Connection createConect() {
+        PoolConecction contador= new PoolConecction();
+        contador.pilaContar();
         try {
             conect = DriverManager.getConnection(URL, USER, PASS);
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(Pool.class.getName()).log(Level.SEVERE, null, ex);
         }

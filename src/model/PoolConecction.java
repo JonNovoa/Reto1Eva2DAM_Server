@@ -9,18 +9,15 @@ package model;
  * @author josue
  */
 public class PoolConecction {
-    private Integer count;
+    private static Integer count=0;
     
-    public Integer pilaContar(Integer contador){
-        if(count <10){
-        this.count=contador++;
-        
+    public void pilaContar(){
+        if(count !=10){
+        this.count++;
+                System.out.println("contador:"+ count);
+
         }
-        else{
-            System.out.println("La pila esta llena");
-        }
-        
-        return count;
+                
     }
       
     
