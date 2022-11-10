@@ -11,8 +11,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import model.ThreadSR;
 
 /**
@@ -21,7 +23,7 @@ import model.ThreadSR;
  */
 public class SocketServer {
 
-    static final Integer PUERTO = 5000;
+    static final Integer PUERTO = Integer.parseInt(ResourceBundle.getBundle("clases.connection").getString("puerto"));
 
     /**
      * Creates a Thread and executes it.
