@@ -34,6 +34,9 @@ public class Pool {
      * the stack and returns it.
      * @return 
      */
+    
+   
+
     public Connection getConnection() {
         if (pool.isEmpty()) {
             
@@ -77,6 +80,17 @@ public class Pool {
         pool.push(conec);
         
 
+    }
+    public void closeConexionPool(){
+        Connection con;
+        while(!pool.isEmpty()){
+            con= (Connection) pool.pop();
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Pool.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

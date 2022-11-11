@@ -11,14 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static clases.AnswerEnumeration.LOGIN;
 import static clases.AnswerEnumeration.SINGUP;
 import static clases.AnswerEnumeration.WGMAIL;
 import static clases.AnswerEnumeration.WLOGIN;
-import static clases.AnswerEnumeration.WLOGIN_PASSWD;
 import static clases.AnswerEnumeration.WLOGIN_WGMAIL;
 
 /**
@@ -48,8 +45,7 @@ public class DAOImplementation implements DAOInterface {
      * @return
      */
     @Override
-    public AnswerEnumeration insertarUser(Client cliente, Stack pool) {
-        ResultSet rs;
+    public AnswerEnumeration insertarUser(Client cliente) {
 
         Integer good;
         AnswerEnumeration Orden;
@@ -318,6 +314,12 @@ public class DAOImplementation implements DAOInterface {
         } catch (SQLException ex) {
             Logger.getLogger(DAOImplementation.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Override
+    public void cerrarPila(){
+        Pool pool1 =new Pool();
+        
     }
 
 }

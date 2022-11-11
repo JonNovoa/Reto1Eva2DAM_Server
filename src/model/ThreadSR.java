@@ -42,22 +42,29 @@ public class ThreadSR extends Thread {
         AnswerEnumeration RESPUESTA = null;
        DAOInterface dao=DAOFactory.getDAO();
         try {
+            
+                
+            
             ois = new ObjectInputStream(skCliente.getInputStream());
             oos= new ObjectOutputStream(skCliente.getOutputStream());
             mensaje = (Message) ois.readObject();
-            
-            System.out.println(mensaje.getCliente().getLogin());
-            System.out.println(mensaje.getORDER());
+            if(mensaje.getCerrar().equalsIgnoreCase("exit")){
+                  dao.cerrarPila();
+            } 
+            else{
+           
             if (mensaje.getORDER().equals(IN)) {
                 RESPUESTA = dao.comprobarSingIn(mensaje.getCliente());
                 
 
             } else if (mensaje.getORDER().equals(UP)) {
-                RESPUESTA = dao.insertarUser(mensaje.getCliente(), null);
-
-            }
+                RESPUESTA = dao.insertarUser(mensaje.getCliente());
+}
+            } 
+            
+             
             mensaje.setRESPUESTA(RESPUESTA);
-            System.out.println(RESPUESTA);
+        
             oos.writeObject(mensaje);
             
             
