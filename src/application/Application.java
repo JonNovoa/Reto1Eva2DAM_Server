@@ -5,17 +5,29 @@
  */
 package application;
 
+import clases.Client;
+import static clases.UserPrivilege.USER;
+import static clases.UserStatus.ENABLED;
+import java.util.Stack;
+import model.DAOImplementation;
+import sockets1.SocketServer;
+
+
 /**
- *
+ * Execute the server socket
  * @author somor
  */
 public class Application {
-
+    private static Stack pool = null;
+    
+    
     /**
+     * Create a new server Socket.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+       new SocketServer();
+        
     }
     
 }

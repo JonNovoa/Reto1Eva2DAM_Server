@@ -6,9 +6,20 @@
 package model;
 
 /**
- *
+ * Creates daos
  * @author somor
  */
 public class DAOFactory {
-    
+
+    /**
+     * Returns a dao
+     * @return 
+     */
+    public static DAOInterface getDAO() {
+        
+        return new DAOImplementation();
+            
+            
+        
+    }
 }

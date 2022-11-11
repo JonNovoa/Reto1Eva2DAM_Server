@@ -5,10 +5,19 @@
  */
 package model;
 
+import clases.AnswerEnumeration;
+import clases.Client;
+import java.util.Stack;
+
 /**
- *
+ * Contains the methods of DAOImpementation
  * @author somor
  */
 public interface DAOInterface {
     
+    public AnswerEnumeration insertarUser(Client cliente);
+    public Integer comprobarSingUp(Client cliente);
+    public AnswerEnumeration comprobarSingIn(Client cliente);
+    public void cerrarPila();
+
 }
